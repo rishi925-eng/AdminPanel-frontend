@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Tabs, Form, Input, Button, Switch, message } from 'antd';
 import { UserOutlined, SecurityScanOutlined, BellOutlined } from '@ant-design/icons';
-import './SettingsPage.css'; // ✅ Ensure filename matches exactly
+
 
 interface SettingsProps {
   currentUser?: {

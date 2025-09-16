@@ -7,6 +7,10 @@ import DashboardPage from './pages/DashboardPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import WorkersPage from './pages/WorkersPage';
 import TicketsPage from './pages/TicketsPage';
+import ReportsPage from './pages/ReportsPage';
+import SettingsPage from './pages/SettingsPage';
+
+
 import MapPage from './pages/MapPage';
 import LoadingSpinner from './components/shared/LoadingSpinner';
 
@@ -52,23 +56,23 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 
 
 
-function ReportsPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Reports Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
+// function ReportsPage() {
+//   return (
+//     <div className="text-center py-12">
+//       <h2 className="text-2xl font-bold text-secondary-900 mb-4">Reports Page</h2>
+//       <p className="text-secondary-600">Coming soon...</p>
+//     </div>
+//   );
+// }
 
-function SettingsPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Settings Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
+// function SettingsPage() {
+//   return (
+//     <div className="text-center py-12">
+//       <h2 className="text-2xl font-bold text-secondary-900 mb-4">Settings Page</h2>
+//       <p className="text-secondary-600">Coming soon...</p>
+//     </div>
+//   );
+// }
 
 function App() {
   return (

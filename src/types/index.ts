@@ -21,7 +21,7 @@ export interface ServiceRequest {
   status: 'submitted' | 'triaged' | 'assigned' | 'in_progress' | 'resolved' | 'closed' | 'duplicate' | 'rejected';
   assigned_dept?: string;
   assigned_worker_id?: number;
-  assigned_worker?: User;
+  assigned_worker?: Worker;
   sla_due?: string;
   created_at: string;
   updated_at: string;

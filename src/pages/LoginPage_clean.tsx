@@ -88,6 +88,13 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Development Testing Info */}
+        <div className="text-center text-sm text-secondary-500 bg-secondary-50 p-3 rounded-lg">
+          <p className="font-medium">🧪 Development Mode</p>
+          <p>Use: admin@civic.com, superadmin@civic.com, or worker@civic.com</p>
+          <p>OTP: 123456</p>
+        </div>
+
         {step === 'credentials' ? (
           <form className="mt-8 space-y-6" onSubmit={handleCredentialsSubmit}>
             <div className="card">
@@ -119,7 +126,23 @@ export default function LoginPage() {
 
                 {error && (
                   <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg">
-                    {error}
+                    <div className="flex items-center">
+                      <svg className="h-5 w-5 text-danger-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                      {error}
+                    </div>
+                  </div>
+                )}
+
+                {successMessage && (
+                  <div className="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-lg">
+                    <div className="flex items-center">
+                      <svg className="h-5 w-5 text-success-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      {successMessage}
+                    </div>
                   </div>
                 )}
 
@@ -176,7 +199,7 @@ export default function LoginPage() {
                     </div>
                   </div>
                 )}
-                
+
                 {successMessage && (
                   <div className="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-lg">
                     <div className="flex items-center">
@@ -195,6 +218,7 @@ export default function LoginPage() {
                       setStep('credentials');
                       setOtp('');
                       setError('');
+                      setSuccessMessage('');
                     }}
                     className="btn-secondary flex-1"
                   >

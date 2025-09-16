@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import { SocketEvents } from '../types';
+import type { SocketEvents } from '../types';
 
 class SocketService {
   private socket: Socket | null = null;
@@ -47,7 +47,7 @@ class SocketService {
     this.listeners.get(event)!.push(callback);
     
     if (this.socket) {
-      this.socket.on(event, callback);
+      this.socket.on(event as string, callback as any);
     }
   }
 
@@ -60,12 +60,12 @@ class SocketService {
       }
       
       if (this.socket) {
-        this.socket.off(event, callback);
+        this.socket.off(event as string, callback as any);
       }
     } else {
       this.listeners.delete(event);
       if (this.socket) {
-        this.socket.off(event);
+        this.socket.off(event as string);
       }
     }
   }

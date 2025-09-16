@@ -1,25 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { LatLngExpression, Icon, DivIcon, MarkerCluster } from 'leaflet';
-import { ServiceRequest } from '../../types';
+import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { DivIcon, type LatLngExpression } from 'leaflet';
+import type { ServiceRequest, Hotspot } from '../../types';
 import StatusBadge from '../shared/StatusBadge';
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default markers
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-const DefaultIcon = new Icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
+import 'leaflet/dist/images/marker-icon.png';
+import 'leaflet/dist/images/marker-shadow.png';
 
 // Status-based marker icons
-const getMarkerIcon = (status: string): Icon => {
+const getMarkerIcon = (status: string): DivIcon => {
   const getColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'submitted': return '#f59e0b';
@@ -36,7 +26,7 @@ const getMarkerIcon = (status: string): Icon => {
 
   return new DivIcon({
     className: 'custom-marker',
-    html: `<div style=\"background-color: ${getColor(status)}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);\"></div>`,
+    html: `<div style="background-color: ${getColor(status)}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
     popupAnchor: [0, -10]
@@ -45,21 +35,34 @@ const getMarkerIcon = (status: string): Icon => {
 
 interface LeafletMapProps {
   tickets: ServiceRequest[];
+  hotspots?: Hotspot[];
   center?: LatLngExpression;
   zoom?: number;
   onTicketClick?: (ticket: ServiceRequest) => void;
+  onTicketSelect?: (ticket: ServiceRequest | null) => void;
+  selectedTicket?: ServiceRequest | null;
   height?: string;
   showClustering?: boolean;
+  className?: string;
 }
 
 export default function LeafletMap({ 
   tickets, 
+  hotspots = [],
   center = [26.7606, 83.3732], // Default to Gorakhpur coordinates
   zoom = 13, 
   onTicketClick,
+  onTicketSelect,
+  selectedTicket,
   height = '400px',
-  showClustering = false
+  showClustering = false,
+  className = ''
 }: LeafletMapProps) {
+  // Remove unused variable warnings
+  showClustering;
+  onTicketSelect;
+  selectedTicket;
+  
   const validTickets = tickets.filter(ticket => 
     ticket.lat && 
     ticket.lng && 
@@ -78,7 +81,7 @@ export default function LeafletMap({
   };
 
   return (
-    <div style={{ height }} className=\"rounded-lg overflow-hidden border border-secondary-200\">
+    <div style={{ height }} className={`rounded-lg overflow-hidden border border-secondary-200 ${className}`}>
       <MapContainer
         center={center}
         zoom={zoom}
@@ -86,36 +89,57 @@ export default function LeafletMap({
         zoomControl={true}
       >
         <TileLayer
-          url=\"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\"
-          attribution='&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
+        {/* Hotspots */}
+        {hotspots.map((hotspot, index) => (
+          <Circle
+            key={`hotspot-${index}`}
+            center={[hotspot.lat, hotspot.lng]}
+            radius={Math.max(hotspot.count * 50, 100)}
+            fillColor="red"
+            fillOpacity={0.3}
+            color="red"
+            weight={2}
+          >
+            <Popup>
+              <div className="text-center">
+                <h4 className="font-semibold text-sm">{hotspot.category || 'Hotspot'}</h4>
+                <p className="text-xs text-secondary-600">{hotspot.count} reports</p>
+              </div>
+            </Popup>
+          </Circle>
+        ))}
+        
+        {/* Tickets */}
         {validTickets.map((ticket) => (
           <Marker
             key={ticket.id}
             position={[ticket.lat, ticket.lng]}
             icon={getMarkerIcon(ticket.status)}
           >
-            <Popup className=\"custom-popup\" maxWidth={300}>
-              <div className=\"p-2\">
-                <div className=\"flex items-start justify-between mb-2\">
-                  <div className=\"flex-1\">
-                    <h3 className=\"font-semibold text-secondary-900 mb-1\">
+            <Popup className="custom-popup" maxWidth={300}>
+              <div className="p-2">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-secondary-900 mb-1">
                       {ticket.category}
                     </h3>
-                    <StatusBadge status={ticket.status} size=\"sm\" />
+                    <StatusBadge status={ticket.status} size="sm" />
                   </div>
-                  <span className=\"text-xs text-secondary-500 ml-2\">
+                  <span className="text-xs text-secondary-500 ml-2">
                     #{ticket.id}
                   </span>
                 </div>
                 
                 {ticket.photo_url && (
-                  <div className=\"mb-3\">
+                  <div className="mb-3">
                     <img
                       src={ticket.photo_url}
-                      alt=\"Issue photo\"
-                      className=\"w-full h-32 object-cover rounded\"
+                      alt="Issue photo"
+                      className="w-full h-32 object-cover rounded"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                       }}
@@ -123,28 +147,28 @@ export default function LeafletMap({
                   </div>
                 )}
                 
-                <p className=\"text-sm text-secondary-700 mb-3\">
+                <p className="text-sm text-secondary-700 mb-3">
                   {ticket.description?.substring(0, 150)}
                   {ticket.description && ticket.description.length > 150 ? '...' : ''}
                 </p>
                 
-                <div className=\"space-y-1 text-xs text-secondary-500\">
+                <div className="space-y-1 text-xs text-secondary-500">
                   <div>
-                    <span className=\"font-medium\">Reported:</span> {formatDate(ticket.created_at)}
+                    <span className="font-medium">Reported:</span> {formatDate(ticket.created_at)}
                   </div>
                   {ticket.assigned_dept && (
                     <div>
-                      <span className=\"font-medium\">Department:</span> {ticket.assigned_dept}
+                      <span className="font-medium">Department:</span> {ticket.assigned_dept}
                     </div>
                   )}
                   {ticket.assigned_worker?.name && (
                     <div>
-                      <span className=\"font-medium\">Assigned to:</span> {ticket.assigned_worker.name}
+                      <span className="font-medium">Assigned to:</span> {ticket.assigned_worker.name}
                     </div>
                   )}
                   {ticket.sla_due && (
                     <div>
-                      <span className=\"font-medium\">Due:</span> {formatDate(ticket.sla_due)}
+                      <span className="font-medium">Due:</span> {formatDate(ticket.sla_due)}
                     </div>
                   )}
                 </div>
@@ -152,7 +176,7 @@ export default function LeafletMap({
                 {onTicketClick && (
                   <button
                     onClick={() => onTicketClick(ticket)}
-                    className=\"mt-3 btn-primary w-full text-sm py-1\"
+                    className="mt-3 btn-primary w-full text-sm py-1"
                   >
                     View Details
                   </button>

@@ -1,0 +1,11 @@
+.reports-page {
+  padding: 24px;
+}
+
+.reports-page .ant-card {
+  margin-bottom: 24px;
+}
+
+.reports-page .ant-space {
+  width: 100%;
+}

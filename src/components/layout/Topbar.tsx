@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../store/AuthContext';
 import socketService from '../../services/socket';
 import { Menu, Transition } from '@headlessui/react';
@@ -9,7 +9,6 @@ import {
   UserCircleIcon,
   Cog6ToothIcon,
   ArrowRightOnRectangleIcon,
-  CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -78,42 +77,42 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   };
 
   return (
-    <div className=\"bg-white shadow-sm border-b border-secondary-200\">
-      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 md:px-8\">
-        <div className=\"flex justify-between items-center h-16\">
+    <div className="bg-white shadow-sm border-b border-secondary-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex justify-between items-center h-16">
           {/* Mobile menu button */}
           <button
             onClick={onMenuClick}
-            className=\"md:hidden p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100\"
+            className="md:hidden p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100"
           >
-            <Bars3Icon className=\"h-6 w-6\" />
+            <Bars3Icon className="h-6 w-6" />
           </button>
 
           {/* Page title - will be updated based on route */}
-          <div className=\"hidden md:block\">
-            <h1 className=\"text-2xl font-semibold text-secondary-900\">Dashboard</h1>
+          <div className="hidden md:block">
+            <h1 className="text-2xl font-semibold text-secondary-900">Dashboard</h1>
           </div>
 
           {/* Right side */}
-          <div className=\"flex items-center space-x-4\">
+          <div className="flex items-center space-x-4">
             {/* Connection status */}
-            <div className=\"flex items-center space-x-2\">
+            <div className="flex items-center space-x-2">
               <div className={clsx(
                 'h-2 w-2 rounded-full',
                 socketService.isConnected() ? 'bg-success-500' : 'bg-danger-500'
               )} />
-              <span className=\"text-sm text-secondary-500\">
+              <span className="text-sm text-secondary-500">
                 {socketService.isConnected() ? 'Connected' : 'Disconnected'}
               </span>
             </div>
 
             {/* Notifications */}
-            <Menu as=\"div\" className=\"relative inline-block text-left\">
+            <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className=\"relative p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100\">
-                  <BellIcon className=\"h-6 w-6\" />
+                <Menu.Button className="relative p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100">
+                  <BellIcon className="h-6 w-6" />
                   {unreadCount > 0 && (
-                    <span className=\"absolute -top-1 -right-1 h-4 w-4 bg-danger-500 text-white text-xs rounded-full flex items-center justify-center\">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-danger-500 text-white text-xs rounded-full flex items-center justify-center">
                       {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                   )}
@@ -122,29 +121,29 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
               <Transition
                 as={Fragment}
-                enter=\"transition ease-out duration-100\"
-                enterFrom=\"transform opacity-0 scale-95\"
-                enterTo=\"transform opacity-100 scale-100\"
-                leave=\"transition ease-in duration-75\"
-                leaveFrom=\"transform opacity-100 scale-100\"
-                leaveTo=\"transform opacity-0 scale-95\"
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className=\"absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10\">
-                  <div className=\"py-1\">
-                    <div className=\"flex items-center justify-between px-4 py-2 border-b border-secondary-200\">
-                      <h3 className=\"text-sm font-medium text-secondary-900\">Notifications</h3>
+                <Menu.Items className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                  <div className="py-1">
+                    <div className="flex items-center justify-between px-4 py-2 border-b border-secondary-200">
+                      <h3 className="text-sm font-medium text-secondary-900">Notifications</h3>
                       {unreadCount > 0 && (
                         <button
                           onClick={markAllAsRead}
-                          className=\"text-sm text-primary-600 hover:text-primary-800\"
+                          className="text-sm text-primary-600 hover:text-primary-800"
                         >
                           Mark all read
                         </button>
                       )}
                     </div>
-                    <div className=\"max-h-96 overflow-y-auto\">
+                    <div className="max-h-96 overflow-y-auto">
                       {notifications.length === 0 ? (
-                        <div className=\"px-4 py-6 text-center text-sm text-secondary-500\">
+                        <div className="px-4 py-6 text-center text-sm text-secondary-500">
                           No notifications yet
                         </div>
                       ) : (
@@ -158,20 +157,20 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                                   !notification.read ? 'bg-primary-50' : ''
                                 )}
                               >
-                                <div className=\"flex justify-between items-start\">
-                                  <div className=\"flex-1 min-w-0\">
-                                    <p className=\"text-sm font-medium text-secondary-900\">
+                                <div className="flex justify-between items-start">
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-secondary-900">
                                       {notification.title}
                                     </p>
-                                    <p className=\"text-sm text-secondary-500 mt-1\">
+                                    <p className="text-sm text-secondary-500 mt-1">
                                       {notification.message}
                                     </p>
                                   </div>
                                   {!notification.read && (
-                                    <div className=\"h-2 w-2 bg-primary-600 rounded-full ml-2 mt-1\" />
+                                    <div className="h-2 w-2 bg-primary-600 rounded-full ml-2 mt-1" />
                                   )}
                                 </div>
-                                <p className=\"text-xs text-secondary-400 mt-2\">
+                                <p className="text-xs text-secondary-400 mt-2">
                                   {formatTimeAgo(notification.timestamp)}
                                 </p>
                               </div>
@@ -186,15 +185,15 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             </Menu>
 
             {/* User menu */}
-            <Menu as=\"div\" className=\"relative inline-block text-left\">
+            <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className=\"flex items-center p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100\">
-                  <div className=\"h-8 w-8 bg-primary-600 rounded-full flex items-center justify-center\">
-                    <span className=\"text-sm font-medium text-white\">
+                <Menu.Button className="flex items-center p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100">
+                  <div className="h-8 w-8 bg-primary-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-medium text-white">
                       {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </span>
                   </div>
-                  <span className=\"ml-2 text-sm font-medium text-secondary-700 hidden sm:block\">
+                  <span className="ml-2 text-sm font-medium text-secondary-700 hidden sm:block">
                     {user?.name}
                   </span>
                 </Menu.Button>
@@ -202,30 +201,30 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
               <Transition
                 as={Fragment}
-                enter=\"transition ease-out duration-100\"
-                enterFrom=\"transform opacity-0 scale-95\"
-                enterTo=\"transform opacity-100 scale-100\"
-                leave=\"transition ease-in duration-75\"
-                leaveFrom=\"transform opacity-100 scale-100\"
-                leaveTo=\"transform opacity-0 scale-95\"
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className=\"absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10\">
-                  <div className=\"py-1\">
-                    <div className=\"px-4 py-3 border-b border-secondary-200\">
-                      <p className=\"text-sm font-medium text-secondary-900\">{user?.name}</p>
-                      <p className=\"text-sm text-secondary-500 capitalize\">{user?.role?.replace('_', ' ')}</p>
+                <Menu.Items className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                  <div className="py-1">
+                    <div className="px-4 py-3 border-b border-secondary-200">
+                      <p className="text-sm font-medium text-secondary-900">{user?.name}</p>
+                      <p className="text-sm text-secondary-500 capitalize">{user?.role?.replace('_', ' ')}</p>
                     </div>
                     
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href=\"#\"
+                          href="#"
                           className={clsx(
                             'flex items-center px-4 py-2 text-sm text-secondary-700',
                             active ? 'bg-secondary-100' : ''
                           )}
                         >
-                          <UserCircleIcon className=\"mr-3 h-5 w-5 text-secondary-400\" />
+                          <UserCircleIcon className="mr-3 h-5 w-5 text-secondary-400" />
                           Profile
                         </a>
                       )}
@@ -234,13 +233,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href=\"#\"
+                          href="#"
                           className={clsx(
                             'flex items-center px-4 py-2 text-sm text-secondary-700',
                             active ? 'bg-secondary-100' : ''
                           )}
                         >
-                          <Cog6ToothIcon className=\"mr-3 h-5 w-5 text-secondary-400\" />
+                          <Cog6ToothIcon className="mr-3 h-5 w-5 text-secondary-400" />
                           Settings
                         </a>
                       )}
@@ -255,7 +254,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                             active ? 'bg-secondary-100' : ''
                           )}
                         >
-                          <ArrowRightOnRectangleIcon className=\"mr-3 h-5 w-5 text-secondary-400\" />
+                          <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5 text-secondary-400" />
                           Sign out
                         </button>
                       )}

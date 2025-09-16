@@ -4,6 +4,10 @@ import { AuthProvider, useAuth } from './store/AuthContext';
 import Layout from './components/layout/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import DepartmentsPage from './pages/DepartmentsPage';
+import WorkersPage from './pages/WorkersPage';
+import TicketsPage from './pages/TicketsPage';
+import MapPage from './pages/MapPage';
 import LoadingSpinner from './components/shared/LoadingSpinner';
 
 // Protected Route wrapper
@@ -45,41 +49,8 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 // Placeholder components for routes not yet implemented
-function TicketsPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Tickets Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
 
-function MapPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Map Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
 
-function WorkersPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Workers Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
-
-function DepartmentsPage() {
-  return (
-    <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-secondary-900 mb-4">Departments Page</h2>
-      <p className="text-secondary-600">Coming soon...</p>
-    </div>
-  );
-}
 
 function ReportsPage() {
   return (
